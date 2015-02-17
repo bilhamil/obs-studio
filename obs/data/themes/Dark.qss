@@ -139,7 +139,7 @@ QComboBox::drop-down {
 
 QComboBox::down-arrow {
     qproperty-alignment: AlignTop;
-    image: url(:/res/images/updown.png);
+    image: url(./Dark/updown.png);
     width: 100%;
 }
 
@@ -204,12 +204,12 @@ QDoubleSpinBox::up-button:disabled, QDoubleSpinBox::up-button:off, QDoubleSpinBo
 }
 
 QSpinBox::up-arrow, QDoubleSpinBox::up-arrow {
-    image: url(:/res/images/up_arrow.png);
+    image: url(./Dark/up_arrow.png);
     width: 100%;
 }
 
 QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
-    image: url(:/res/images/down_arrow.png);
+    image: url(./Dark/down_arrow.png);
     width: 100%;
 }
 
