@@ -2407,3 +2407,19 @@ float obs_source_get_target_volume(obs_source_t *source, obs_source_t *target)
 
 	return info.vol;
 }
+
+void obs_source_enum_filters(obs_source_t *source,
+		obs_source_enum_proc_t callback, void *param)
+{
+	if (!source || !callback)
+		return;
+
+	pthread_mutex_lock(&source->filter_mutex);
+
+	for (size_t i = 0; i < source->filters.num; i++) {
+		struct obs_source *filter = source->filters.array[i];
+		callback(source, filter, param);
+	}
+
+	pthread_mutex_unlock(&source->filter_mutex);
+}
