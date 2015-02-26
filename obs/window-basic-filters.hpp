@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright (C) 2014 by Hugh Bailey <obs.jim@gmail.com>
+    Copyright (C) 2015 by Hugh Bailey <obs.jim@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,45 +22,57 @@
 #include <memory>
 #include <obs.hpp>
 
-class OBSPropertiesView;
+#include "properties-view.hpp"
+
 class OBSBasic;
+class QMenu;
 
-#include "ui_OBSBasicProperties.h"
+#include "ui_OBSBasicFilters.h"
 
-class OBSBasicProperties : public QDialog {
+class OBSBasicFilters : public QDialog {
 	Q_OBJECT
 
 private:
-	OBSBasic   *main;
-	int        resizeTimer;
-	bool       acceptClicked;
+	OBSBasic *main;
 
-	std::unique_ptr<Ui::OBSBasicProperties> ui;
-	OBSSource  source;
+	std::unique_ptr<Ui::OBSBasicFilters> ui;
+	int resizeTimer = 0;
+	OBSSource source;
+	OBSPropertiesView *view = nullptr;
+
 	OBSDisplay display;
-	OBSSignal  removedSignal;
-	OBSSignal  updatePropertiesSignal;
-	OBSData    oldSettings;
-	OBSPropertiesView *view;
-	QDialogButtonBox *buttonBox;
+	OBSSignal addSignal;
+	OBSSignal removeSignal;
 
-	static void SourceRemoved(void *data, calldata_t *params);
-	static void UpdateProperties(void *data, calldata_t *params);
+	void UpdateFilters();
+	void UpdatePropertiesView(int row);
+
+	static void OBSSourceFilterAdded(void *param, calldata_t *data);
+	static void OBSSourceFilterRemoved(void *param, calldata_t *data);
 	static void DrawPreview(void *data, uint32_t cx, uint32_t cy);
-	bool ConfirmQuit();
-	int  CheckSettings();
+
+	QMenu *CreateAddFilterPopupMenu();
+
+	void AddNewFilter(const char *id);
 
 private slots:
-	void OnPropertiesResized();
-	void on_buttonBox_clicked(QAbstractButton *button);
+	void AddFilter(OBSSource filter);
+	void RemoveFilter(OBSSource filter);
+
+	void AddFilterFromAction();
+
+	void OnPreviewResized();
+
+	void on_addFilter_clicked();
+	void on_removeFilter_clicked();
+	void on_filters_currentRowChanged(int row);
 
 public:
-	OBSBasicProperties(QWidget *parent, OBSSource source_);
+	OBSBasicFilters(QWidget *parent, OBSSource source_);
 
 	void Init();
 
 protected:
-	virtual void resizeEvent(QResizeEvent *event) override;
-	virtual void timerEvent(QTimerEvent *event) override;
 	virtual void closeEvent(QCloseEvent *event) override;
+	virtual void timerEvent(QTimerEvent *event) override;
 };
