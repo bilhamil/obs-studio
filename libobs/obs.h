@@ -783,6 +783,9 @@ EXPORT uint32_t obs_source_get_audio_mixers(const obs_source_t *source);
 EXPORT void obs_source_enum_filters(obs_source_t *source,
 		obs_source_enum_proc_t callback, void *param);
 
+EXPORT obs_source_t *obs_source_get_filter_by_name(obs_source_t *source,
+		const char *name);
+
 /* ------------------------------------------------------------------------- */
 /* Functions used by sources */
 
