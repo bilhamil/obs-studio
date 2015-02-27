@@ -879,6 +879,17 @@ static void update_viewproj_matrix(struct gs_device *device)
 	struct gs_shader *vs = device->cur_vertex_shader;
 	gs_matrix_get(&device->cur_view);
 
+	if (device->cur_fbo) {
+		device->cur_proj.x.y = -device->cur_proj.x.y;
+		device->cur_proj.y.y = -device->cur_proj.y.y;
+		device->cur_proj.z.y = -device->cur_proj.z.y;
+		device->cur_proj.t.y = -device->cur_proj.t.y;
+
+		glFrontFace(GL_CW);
+	} else {
+		glFrontFace(GL_CCW);
+	}
+
 	matrix4_mul(&device->cur_viewproj, &device->cur_view,
 			&device->cur_proj);
 	matrix4_transpose(&device->cur_viewproj, &device->cur_viewproj);
