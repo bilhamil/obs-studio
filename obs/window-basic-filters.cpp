@@ -75,6 +75,9 @@ void OBSBasicFilters::UpdatePropertiesView(int row)
 	delete view;
 	view = nullptr;
 
+	if (row == -1)
+		return;
+
 	QListWidgetItem *item = ui->filters->item(row);
 	QVariant v = item->data(Qt::UserRole);
 	OBSSource filter = v.value<OBSSource>();
@@ -321,6 +324,5 @@ void OBSBasicFilters::on_removeFilter_clicked()
 
 void OBSBasicFilters::on_filters_currentRowChanged(int row)
 {
-	if (row != -1)
-		UpdatePropertiesView(row);
+	UpdatePropertiesView(row);
 }
