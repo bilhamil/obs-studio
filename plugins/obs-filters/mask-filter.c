@@ -39,6 +39,7 @@ static void mask_filter_destroy(void *data)
 
 	obs_enter_graphics();
 	gs_effect_destroy(filter->effect);
+	gs_texture_destroy(filter->mask);
 	obs_leave_graphics();
 
 	bfree(filter->mask_path);
