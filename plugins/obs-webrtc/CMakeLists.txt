@@ -22,7 +22,8 @@ find_package(WebRTC REQUIRED)
 set(obs-webrtc_HEADERS
 	obs-webrtc.h)
 set(obs-webrtc_SOURCES
-	obs-webrtc.c)
+	obs-webrtc.cpp
+	webrtc-output.cpp)
 	
 add_library(obs-webrtc MODULE
 	${obs-webrtc_SOURCES}
